@@ -1,0 +1,9 @@
+#!/bin/bash
+alias open='xdg-open'
+alias copy-id='ssh-copy-id -i ~/.ssh/id_rsa -o PubkeyAuthentication=no'
+alias pbcopy='xclip -selection clipboard'
+alias pssh='ssh -o PubkeyAuthentication=no'
+alias yup='sudo yum update'
+alias yumi='sudo yum install'
+alias yumrm='sudo yum erase'
+
