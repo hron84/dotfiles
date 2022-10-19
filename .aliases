@@ -6,4 +6,5 @@ alias pssh='ssh -o PubkeyAuthentication=no'
 alias yup='sudo yum update'
 alias yumi='sudo yum install'
 alias yumrm='sudo yum erase'
-
+alias egrep='grep -E'
+alias fgrep='grep -F'
