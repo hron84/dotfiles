@@ -1,0 +1,38 @@
+[user]
+    name = Gabor Garami
+    email = hron@hron.me
+    signingkey = 51d11d3b
+[alias]
+    br = branch
+    ci = commit
+    co = checkout
+    df = diff -w
+    lsr = ls-remote
+    mg = merge --no-ff
+    ps = push
+    psu = push -u
+    pu = pull
+    rup = remote update -p
+    st = status
+    sts = status -s
+    purr = pull --rebase
+[url "https://github.com/"]
+    insteadOf = github:
+[url "ssh://git@github.com/"]
+    pushInsteadOf = github:
+[push]
+    autoSetupRemote = true
+    default = matching
+    gpgSign = if-asked
+[core]
+    whitespace = trailing-space
+[pull]
+    rebase = false
+[init]
+    DefaultBranch = master
+[commit]
+    gpgSign = true
+[tag]
+    gpgSign = true
+
+# vim: ts=4 sw=4 et
