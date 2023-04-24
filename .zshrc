@@ -36,6 +36,7 @@ ZSH_THEME='hron84'
 # Example format: plugins=(rails git textmate ruby lighthouse)
 plugins=(
         ant
+        bgnotify
         bundler
         capistrano
         direnv
@@ -53,7 +54,6 @@ plugins=(
         rake
         ruby
         vagrant
-        zsh-autosuggestions
 )
 manager_plugins=(rvm nvm sdkman phpbrew)
 source $ZSH/oh-my-zsh.sh
