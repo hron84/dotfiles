@@ -5,6 +5,7 @@
 [alias]
     br = branch
     ci = commit
+    cia = commit -a
     co = checkout
     df = diff -w
     lsr = ls-remote
@@ -18,11 +19,13 @@
     purr = pull --rebase
 [url "https://github.com/"]
     insteadOf = github:
+    insteadOf = git://github.com/
 [url "ssh://git@github.com/"]
     pushInsteadOf = github:
+    pushInsteadOf = git://github.com/
 [push]
     autoSetupRemote = true
-    default = matching
+    default = upstream
     gpgSign = if-asked
 [core]
     whitespace = trailing-space
@@ -34,5 +37,8 @@
     gpgSign = true
 [tag]
     gpgSign = true
+
+[advice]
+	skippedCherryPicks = false
 
 # vim: ts=4 sw=4 et
