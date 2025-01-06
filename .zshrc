@@ -17,7 +17,7 @@ ZSH_THEME='hron84'
 # CASE_SENSITIVE="true"
 
 # Comment this out to disable bi-weekly auto-update checks
-# DISABLE_AUTO_UPDATE="true"
+DISABLE_AUTO_UPDATE="true"
 
 # Uncomment to change how many often would you like to wait before auto-updates occur? (in days)
 # export UPDATE_ZSH_DAYS=13
@@ -30,6 +30,8 @@ ZSH_THEME='hron84'
 
 # Uncomment following line if you want red dots to be displayed while waiting for completion
 # COMPLETION_WAITING_DOTS="true"
+
+HIST_STAMPS=yyyy-mm-dd
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
@@ -60,20 +62,17 @@ source $ZSH/oh-my-zsh.sh
 
 # Customize to your needs...
 export PATH=$PATH:${HOME}/bin
-export EDITOR=/usr/bin/editor
+if [ -n "$(command -v vim)" ]; then
+    export EDITOR="$(command -v vim)"
+elif [ -x /usr/bin/editor ]; then
+    export EDITOR=/usr/bin/editor
+fi
 
-
-# export PATH="$PATH:$HOME/.rvm/bin"
-#export SDKMAN_DIR="${HOME}/.sdkman"
-#[[ -s "${HOME}/.sdkman/bin/sdkman-init.sh" ]] && source "${HOME}/.sdkman/bin/sdkman-init.sh"
-#
-#[[ -e "$HOME/.nvm/nvm.sh" ]] && . "$HOME/.nvm/nvm.sh" # This loads NVM
-#
-#[[ -e "$HOME/.phpbrew/bashrc" ]] && source "$HOME/.phpbrew/bashrc"
-
-for mplug  in ${manager_plugins[@]}; do
-    source "${HOME}/.zsh.d/${mplug}.zsh"
-done
+if [ -d "${HOME}/.zsh.d" ]; then
+    for mplug  in "${manager_plugins[@]}"; do
+        source "${HOME}/.zsh.d/${mplug}.zsh"
+    done
+fi
 
 
 [[ -e "$HOME/.aliases" ]] && source "$HOME/.aliases"
@@ -83,6 +82,7 @@ alias mvn='mvn-color'
 unalias ls 2>/dev/null || true
 
 LS_OPTIONS="-A -N --color=tty -T 0 --group-directories-first"
+# shellcheck disable=SC2139
 alias ls="ls $LS_OPTIONS"
 
 [ -n "$GNOME_DESKTOP_SESSION_ID" ] && cat /etc/motd
@@ -95,6 +95,19 @@ if [ -n "${SSH_CLIENT}" ]; then
     [ -f "$HOME/bin/set_dbus_addres_ssh.sh" ] && eval "$($HOME/bin/set_dbus_addres_ssh.sh)"
 fi
 
+if [ -z "${SSH_AUTH_SOCK}" ] && [ -S "${XDG_RUNTIME_DIR}/gcr/ssh" ]; then
+    echo ' >> Fixing Gnome Keyring Manager SSH stuff'
+    export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR}/gcr/ssh"
+    export SSH_ASKPASS=/usr/lib/seahorse/ssh-askpass
+
+    if ! ssh-add -l | grep -Fq 'i4QAUe3g2w7UGEhFOs/o9FJ/0vbSMdTfAEqCnbFr47A' ; then
+        echo ' >> Adding default RSA key after reboot'
+        ssh-add "${HOME}/.ssh/id_rsa"
+    fi
+
+fi
+
+
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
@@ -104,5 +117,12 @@ if [ -f '/opt/google-cloud-sdk/path.zsh.inc' ]; then
     . '/opt/google-cloud-sdk/path.zsh.inc';
 fi
 
+[ -d "${HOME}/.krew/bin" ] && export PATH="${HOME}/.krew/bin:${PATH}"
+
 # The next line enables shell command completion for gcloud.
 if [ -f '/opt/google-cloud-sdk/completion.zsh.inc' ]; then . '/opt/google-cloud-sdk/completion.zsh.inc'; fi
+
+if [[ "$TERM_PROGRAM" == "vscode" ]]; then
+   source "$(code --locate-shell-integration-path zsh)"
+fi
+
