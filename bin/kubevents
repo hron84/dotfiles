@@ -1,0 +1,6 @@
+#!/bin/bash
+
+ns="$(kubectl config view --minify | grep namespace: | cut -d: -f2 | tr -d ' ')"
+
+exec kubectl get event --namespace "${ns}" --field-selector involvedObject.name="$1"
+
