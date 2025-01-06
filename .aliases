@@ -3,8 +3,28 @@ alias open='xdg-open'
 alias copy-id='ssh-copy-id -i ~/.ssh/id_rsa -o PubkeyAuthentication=no'
 alias pbcopy='xclip -selection clipboard'
 alias pssh='ssh -o PubkeyAuthentication=no'
-alias yup='sudo yum update'
-alias yumi='sudo yum install'
-alias yumrm='sudo yum erase'
+
+if [ -n "$(command -v dnf)" ] && [ -z "$(command -v yum)" ] && [ -d /etc/sysconfig ]; then
+  alias yum='sudo dnf'
+  alias yup='sudo dnf update'
+  alias yumi='sudo dnf install'
+  alias yumrm='sudo dnf erase'
+elif [ -n "$(command -v yum)" ] && [ -d /etc/sysconfig ]; then
+  alias yup='sudo yum update'
+  alias yumi='sudo yum install'
+  alias yumrm='sudo yum erase'
+elif [ -n "$(command -v apt-get)" ] && [ -d /etc/apt/sources.list.d ]; then
+  alias apti='sudo apt-get install'
+  alias aptup='sudo bash -c "apt-get update && apt-get upgrade"'
+  alias daptup='sudo bash -c "debconf-apt-progress -- apt-get update && debconf-apt-progress -- apt-get upgrade -qqy -o Dpkg::Options::=--force-confold"'
+elif [ -n "$(command -v pacman)" ] && [ -f /etc/arch-release ] ; then
+  alias psy='sudo pacman -Sy'
+  alias pacu='sudo pacman -U'
+  alias yi='yay -Sy --needed'
+  alias ys='yay -Ss'
+  alias yup='yay -Syu'
+  alias yupi='yay -Syu --noconfirm'
+fi
 alias egrep='grep -E'
 alias fgrep='grep -F'
+alias wkgp='watch -n2 kubectl get pods'
