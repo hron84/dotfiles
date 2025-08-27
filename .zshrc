@@ -44,6 +44,7 @@ plugins=(
         direnv
         docker
         docker-compose
+        fluxcd
         fzf
         git
         gvm
@@ -125,4 +126,3 @@ if [ -f '/opt/google-cloud-sdk/completion.zsh.inc' ]; then . '/opt/google-cloud-
 if [[ "$TERM_PROGRAM" == "vscode" ]]; then
    source "$(code --locate-shell-integration-path zsh)"
 fi
-

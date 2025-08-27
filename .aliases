@@ -20,11 +20,15 @@ elif [ -n "$(command -v apt-get)" ] && [ -d /etc/apt/sources.list.d ]; then
 elif [ -n "$(command -v pacman)" ] && [ -f /etc/arch-release ] ; then
   alias psy='sudo pacman -Sy'
   alias pacu='sudo pacman -U'
-  alias yi='yay -Sy --needed'
+  alias yi='paru -Sy --needed'
   alias ys='yay -Ss'
-  alias yup='yay -Syu'
-  alias yupi='yay -Syu --noconfirm'
+  alias yup='paru -Syu'
+  alias yupi='paru -Syu --noconfirm'
 fi
 alias egrep='grep -E'
 alias fgrep='grep -F'
 alias wkgp='watch -n2 kubectl get pods'
+alias kgsvc='kubectl get service'
+alias kseal='kubeseal --format=yaml --cert="${HOME}/.kube/mytls.crt"'
+alias kunseal='kubeseal --recovery-unseal --recovery-private-key="${HOME}/.kube/mytls.key" --format yaml'
+alias kubeval='kubeval -s https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/'
